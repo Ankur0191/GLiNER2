@@ -1,0 +1,96 @@
+{
+  "profile_id": "testing_inspection_certification",
+  "profile_version": "1.0.0",
+  "description": "Testing, inspection, certification, assurance, verification, audit and conformity assessment industries.",
+  "entity_extensions": {
+    "service": "Testing, laboratory analysis, inspection, statutory inspection, certification, product conformity assessment, management-system audit, supplier audit, verification, validation, calibration, asset integrity, technical assurance, environmental monitoring or training.",
+    "asset": "Industrial plant, factory, building, infrastructure, vessel, aircraft, vehicle, pipeline, power asset, mine, laboratory, product, equipment, supply chain or worksite.",
+    "standard": "A technical standard, management-system standard, regulation, directive, code, testing protocol or conformity-assessment framework such as ISO 9001, ISO 14001 or ISO/IEC 17025.",
+    "certification": "A certificate, accreditation, inspection approval, type approval, conformity mark or certification programme.",
+    "customer_segment": "Manufacturers, importers, exporters, infrastructure operators, energy companies, construction firms, food producers, retailers, government agencies or supply-chain operators."
+  },
+  "relations": [
+    {
+      "name": "tests",
+      "head": "organization",
+      "tail": "asset",
+      "description": "A TIC provider explicitly performs testing or laboratory analysis on a product, material, sample or asset."
+    },
+    {
+      "name": "inspects",
+      "head": "organization",
+      "tail": "asset",
+      "description": "A TIC provider explicitly inspects a site, asset, facility, product or equipment."
+    },
+    {
+      "name": "certifies",
+      "head": "organization",
+      "tail": "organization",
+      "description": "A certification body explicitly certifies an organization or its management system."
+    },
+    {
+      "name": "audits",
+      "head": "organization",
+      "tail": "organization",
+      "description": "An organization explicitly audits another organization, supplier or management system."
+    },
+    {
+      "name": "verifies",
+      "head": "organization",
+      "tail": "asset",
+      "description": "A provider explicitly verifies an asset, emissions inventory, claim, project or reported data."
+    },
+    {
+      "name": "validates",
+      "head": "organization",
+      "tail": "asset",
+      "description": "A provider explicitly validates a process, model, method, product or claim."
+    },
+    {
+      "name": "accredited_for",
+      "head": "organization",
+      "tail": "standard",
+      "description": "An organization is explicitly accredited to perform work against a named standard or scope."
+    },
+    {
+      "name": "complies_with",
+      "head": "organization",
+      "tail": "standard",
+      "description": "An organization or asset explicitly complies with a named standard or regulation."
+    },
+    {
+      "name": "awarded_certificate",
+      "head": "organization",
+      "tail": "certification",
+      "description": "A named organization receives a stated certificate or certification."
+    }
+  ],
+  "business_lines": [
+    "Testing and laboratory services",
+    "Inspection and asset integrity",
+    "Certification and conformity assessment",
+    "Management systems and supplier audits",
+    "Environmental, social and governance assurance",
+    "Food, agriculture and commodities assurance",
+    "Construction and infrastructure assurance",
+    "Industrial and energy services",
+    "Cybersecurity and digital trust",
+    "Training and technical advisory"
+  ],
+  "event_types": [
+    "contract_award",
+    "framework_agreement",
+    "certification_award",
+    "accreditation",
+    "facility_opening",
+    "laboratory_expansion",
+    "service_launch",
+    "technology_deployment",
+    "acquisition",
+    "market_expansion",
+    "regulatory_change",
+    "executive_appointment",
+    "incident_or_nonconformity",
+    "other"
+  ]
+}\n

@@ -1,0 +1,52 @@
+{
+  "profile_id": "lifestyle",
+  "profile_version": "1.0.0",
+  "description": "Luxury lifestyle, premium banking, travel, concierge, hospitality, loyalty and experiences.",
+  "entity_extensions": {
+    "offering": "A named card programme, concierge programme, membership, premium travel package, loyalty proposition or experience bundle.",
+    "service": "A concrete premium service: concierge assistance, restaurant reservation, lounge access, airport meet-and-assist, chauffeur transfer, private aviation coordination, hotel booking, yacht charter, event access, art advisory or employee lifestyle support.",
+    "customer_segment": "A buyer or beneficiary group: premium cardholders, private-banking clients, high-net-worth individuals, ultra-high-net-worth families, independent travel advisors, family offices, corporate travellers or luxury leisure guests.",
+    "loyalty_program": "A specifically named points, rewards, membership-rewards or frequent-flyer programme. Do not classify a card tier or general benefit as a loyalty programme."
+  },
+  "relations": [
+    {
+      "name": "distributes_through",
+      "head": "organization",
+      "tail": "organization",
+      "description": "A provider distributes a service or proposition through another organization's network."
+    },
+    {
+      "name": "serves_advisors_of",
+      "head": "organization",
+      "tail": "organization",
+      "description": "A service provider supports advisors belonging to another organization."
+    },
+    {
+      "name": "partners_with",
+      "head": "organization",
+      "tail": "organization",
+      "description": "Explicitly announced partnership."
+    }
+  ],
+  "business_lines": [
+    "Banking and premium cardholder concierge",
+    "Luxury lifestyle and personal concierge",
+    "Travel management and travel benefits",
+    "Rewards, loyalty and benefits management",
+    "Employee concierge and corporate benefits",
+    "Experiences, hospitality and lifestyle partnerships",
+    "Digital concierge and technology-enabled services"
+  ],
+  "event_types": [
+    "strategic_partnership",
+    "service_launch",
+    "product_launch",
+    "loyalty_change",
+    "market_expansion",
+    "executive_appointment",
+    "acquisition",
+    "investment",
+    "contract_award",
+    "other"
+  ]
+}\n

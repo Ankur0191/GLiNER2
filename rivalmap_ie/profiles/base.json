@@ -1,0 +1,107 @@
+{
+  "profile_id": "base",
+  "profile_version": "1.0.0",
+  "description": "Industry-neutral entities and relations for corporate intelligence.",
+  "entities": {
+    "organization": "A specifically named legal or operating entity: company, public body, institution, supplier, customer, association or group. Never a generic plural category.",
+    "brand": "A named commercial brand or sub-brand, distinct from its legal operator when the text makes that distinction.",
+    "person": "A named natural person: executive, director, inspector, founder, spokesperson or public official. Never label a company, product or service as a person.",
+    "product": "A specifically named physical or digital product, platform, tool, instrument or technology.",
+    "offering": "A named commercial programme, package, membership, contract, certification scheme or customer-facing offering.",
+    "service": "A concrete service or activity delivered, purchased, audited, inspected, certified, managed or supported.",
+    "asset": "A named or described physical asset, facility, site, infrastructure, equipment or system.",
+    "standard": "A named regulation, standard, code, framework, protocol or technical specification.",
+    "certification": "A named certificate, accreditation, conformity assessment or certification outcome.",
+    "customer_segment": "A buyer, customer, audience or beneficiary group. Not a service provider.",
+    "location": "A named country, city, region, site, facility, airport, port or other geographic place.",
+    "date": "An explicit date, month, year, deadline or clearly stated time period.",
+    "monetary_value": "An explicit financial amount, preserving currency and scale.",
+    "metric": "An explicit measurable quantity, percentage, count, capacity, duration or performance figure with its stated unit."
+  },
+  "relations": [
+    {
+      "name": "partners_with",
+      "head": "organization",
+      "tail": "organization",
+      "description": "Explicitly announced commercial, strategic or operating partnership."
+    },
+    {
+      "name": "acquired",
+      "head": "organization",
+      "tail": "organization",
+      "description": "An organization explicitly acquires another organization or business."
+    },
+    {
+      "name": "invested_in",
+      "head": "organization",
+      "tail": "organization",
+      "description": "An organization explicitly invests in another organization or project."
+    },
+    {
+      "name": "supplies_to",
+      "head": "organization",
+      "tail": "organization",
+      "description": "An organization explicitly supplies goods or services to another."
+    },
+    {
+      "name": "contracts_with",
+      "head": "organization",
+      "tail": "organization",
+      "description": "An explicit customer, supplier or service contract between organizations."
+    },
+    {
+      "name": "appointed",
+      "head": "organization",
+      "tail": "person",
+      "description": "An organization appoints a person to a role."
+    },
+    {
+      "name": "offers",
+      "head": "organization",
+      "tail": "offering",
+      "description": "An organization offers a named product, programme or commercial offering."
+    },
+    {
+      "name": "provides_service",
+      "head": "organization",
+      "tail": "service",
+      "description": "An organization explicitly provides a service."
+    },
+    {
+      "name": "uses_standard",
+      "head": "organization",
+      "tail": "standard",
+      "description": "An organization explicitly adopts, follows or uses a standard."
+    },
+    {
+      "name": "certifies",
+      "head": "organization",
+      "tail": "organization",
+      "description": "A certification body explicitly certifies another organization."
+    },
+    {
+      "name": "inspects",
+      "head": "organization",
+      "tail": "asset",
+      "description": "An inspection organization explicitly inspects an asset or facility."
+    },
+    {
+      "name": "located_in",
+      "head": "organization",
+      "tail": "location",
+      "description": "An organization has an explicitly stated headquarters, office or operating location."
+    },
+    {
+      "name": "targets",
+      "head": "organization",
+      "tail": "customer_segment",
+      "description": "An organization explicitly targets or serves a customer segment."
+    },
+    {
+      "name": "operates",
+      "head": "organization",
+      "tail": "asset",
+      "description": "An organization explicitly operates an asset, site or facility."
+    }
+  ]
+}\n
