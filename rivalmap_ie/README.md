@@ -19,15 +19,24 @@ pip install -e ".[local,train,test]"
 
 ## Run extraction
 
+Entity-only mode (works with an entity-capable model and does not infer graph edges):
+
+```powershell
+python -m rivalmap_ie.extract --profile lifestyle --entities-only --text "Global Travel Collection partnered with Ten Lifestyle Group to launch a white-label concierge service."
+python -m rivalmap_ie.extract --profile testing_inspection_certification --entities-only --text "Bureau Veritas inspected an offshore wind turbine foundation in Aberdeen under an accredited scope."
+```
+
+Joint entity + relation mode (requires a checkpoint with a compatible trained relation head):
+
 ```powershell
 python -m rivalmap_ie.extract --profile lifestyle --text "Global Travel Collection partnered with Ten Lifestyle Group to launch a white-label concierge service."
-python -m rivalmap_ie.extract --profile testing_inspection_certification --text "Bureau Veritas won a contract to inspect offshore wind turbine foundations under an accredited inspection scope."
+python -m rivalmap_ie.extract --profile testing_inspection_certification --text "Bureau Veritas inspected an offshore wind turbine foundation in Aberdeen under an accredited scope."
 ```
 
 For article files:
 
 ```powershell
-Get-Content .\article.txt -Raw | python -m rivalmap_ie.extract --profile testing_inspection_certification --output .\article.json
+Get-Content .\article.txt -Raw | python -m rivalmap_ie.extract --profile testing_inspection_certification --entities-only --output .\article.json
 ```
 
 The selected profile controls the extraction schema. It does not guarantee that
@@ -42,14 +51,13 @@ without human review.
 
 1. Create a reviewed gold JSONL file using the labels and descriptions in the
    selected profile. Keep the original article as `input`.
-2. Each `output.entities` mention must occur verbatim in the input. Use empty
-   lists for negative labels in examples where those types are absent.
-3. Use the same label definitions across all records for a training run.
-4. Split by article into train/validation; do not randomly split sentences from
-   one article across both sets.
-5. Train one shared adapter on a balanced mix of domains, or keep independent
-   adapters per domain. The latter is recommended initially to prevent one
-   industry's vocabulary from interfering with another.
+2. Each `output.entities` mention must occur in the input. Use empty lists for
+   negative labels where those types are absent.
+3. Use the same label definitions across all records in a training run.
+4. Split by canonical article/source identifier where available to reduce
+   leakage between training and validation data.
+5. Start with separate adapters for Lifestyle and TIC. A shared multi-industry
+   adapter can be evaluated later using a balanced mixture of gold examples.
 6. Benchmark on held-out, human-annotated examples before promoting an adapter.
 
 Prepare reviewed training data:
@@ -75,11 +83,8 @@ No Python source edits are needed for schema-only profiles.
 ## Important constraints
 
 - The profiles are schemas, not trained weights.
-- The seed corpus includes examples for testing and annotation guidance; those
-  examples are illustrative only and must not be used as factual reporting.
-- Relation extraction requires a checkpoint with a trained relation head.
-  If the checkpoint lacks one, use the existing entity-only recipe rather than
-  asserting graph edges from co-occurrence.
+- Illustrative examples are not factual reporting and must not be used as gold annotations.
+- Relation extraction requires a checkpoint with a compatible trained relation head.
+  Entity-only mode deliberately returns an empty relation list.
 - A confidence score is not a calibrated probability.
-- Treat extracted evidence, model interpretation and strategic inference as
-  separate fields in downstream Rivalmap records.
+- Treat extracted evidence, model interpretation and strategic inference as separate fields downstream.
