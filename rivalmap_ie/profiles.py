@@ -32,12 +32,17 @@ def load_profile(profile: str) -> dict[str, Any]:
 
 
 def merge_profile(profile: str) -> dict[str, Any]:
+    """Return one stable profile contract for base and domain-specific profiles."""
     base = load_profile("base")
-    if profile == "base":
-        return base
-    domain = load_profile(profile)
     result = dict(base)
     result["entity_descriptions"] = dict(base.get("entities", {}))
+    result["business_lines"] = []
+    result["event_types"] = []
+
+    if profile == "base":
+        return result
+
+    domain = load_profile(profile)
     result["entity_descriptions"].update(domain.get("entity_extensions", {}))
     result["relations"] = base.get("relations", []) + domain.get("relations", [])
     result["business_lines"] = domain.get("business_lines", [])
@@ -45,9 +50,10 @@ def merge_profile(profile: str) -> dict[str, Any]:
     result["profile_id"] = domain["profile_id"]
     result["profile_version"] = domain["profile_version"]
     result["description"] = domain["description"]
-    # A profile relation with the same name intentionally overrides base definition.
-    dedup = {}
+
+    # A profile relation with the same name intentionally overrides the base definition.
+    deduplicated = {}
     for relation in result["relations"]:
-        dedup[relation["name"]] = relation
-    result["relations"] = list(dedup.values())
+        deduplicated[relation["name"]] = relation
+    result["relations"] = list(deduplicated.values())
     return result
