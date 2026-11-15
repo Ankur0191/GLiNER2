@@ -3,10 +3,11 @@ requires = ["setuptools>=77,<85"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["gliner2", "gliner2.*"]
+include = ["gliner2", "gliner2.*", "rivalmap_ie", "rivalmap_ie.*"]
 
 [tool.setuptools.package-data]
 gliner2 = ["py.typed"]
+"rivalmap_ie.profiles" = ["*.json"]
 
 [tool.setuptools.dynamic]
 version = {attr = "gliner2.__version__"}
@@ -101,7 +102,7 @@ benchmark = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "packaging_tests"]
+testpaths = ["tests", "packaging_tests", "rivalmap_ie/tests", "rivalmap_ie/training/tests"]
 pythonpath = ["."]
 markers = [
     "slow: end-to-end tests that load models or are otherwise slow",
@@ -115,6 +116,7 @@ line-length = 100
 include = [
     "gliner2/__init__.py",
     "gliner2/training/__init__.py",
+    "rivalmap_ie/**/*.py",
     "packaging_tests/**/*.py",
 ]
 

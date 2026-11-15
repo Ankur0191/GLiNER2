@@ -10,6 +10,15 @@ def test_expected_profiles_are_available():
     assert {"base", "lifestyle", "testing_inspection_certification"} <= set(available_profiles())
 
 
+def test_base_profile_has_same_contract_as_domain_profiles():
+    profile = merge_profile("base")
+    assert "entity_descriptions" in profile
+    assert "organization" in profile["entity_descriptions"]
+    assert profile["relations"]
+    assert profile["business_lines"] == []
+    assert profile["event_types"] == []
+
+
 @pytest.mark.parametrize("name", ["lifestyle", "testing_inspection_certification"])
 def test_profile_merges_base_entities_and_domain_relations(name):
     profile = merge_profile(name)

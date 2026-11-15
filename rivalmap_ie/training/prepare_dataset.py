@@ -27,8 +27,8 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
         if not isinstance(row["input"], str) or not isinstance(row["output"], dict):
             raise ValueError(f"{path}:{line_no}: input must be text and output must be an object")
         rows.append(row)
-    if len(rows) < 2:
-        raise ValueError("At least two reviewed article records are needed for a train/validation split.")
+    if not rows:
+        raise ValueError(f"No examples found in {path}")
     return rows
 
 
@@ -70,8 +70,7 @@ def _record_group(row: dict[str, Any]) -> str:
             value = metadata.get(key)
             if value:
                 return str(value).strip().casefold()
-    digest = hashlib.sha256(row["input"].strip().casefold().encode("utf-8")).hexdigest()
-    return digest
+    return hashlib.sha256(row["input"].strip().casefold().encode("utf-8")).hexdigest()
 
 
 def split_rows(rows: list[dict[str, Any]], validation_ratio: float, seed: int):
