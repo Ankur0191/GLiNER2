@@ -1,4 +1,4 @@
-"""Train a small domain adapter from reviewed GLiNER2 JSONL annotations."""
+"""Train a LoRA adapter from reviewed GLiNER2 JSONL annotations."""
 from __future__ import annotations
 
 import argparse
@@ -19,7 +19,9 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--batch-size", type=int, default=2)
     parser.add_argument("--learning-rate", type=float, default=1e-5)
+    parser.add_argument("--max-len", type=int)
     parser.add_argument("--full-finetune", action="store_true")
+    parser.add_argument("--no-lora", action="store_true", help="Alias for full fine-tuning.")
     args = parser.parse_args()
 
     train_path = Path(args.train)
@@ -28,7 +30,10 @@ def main() -> None:
         parser.error(f"Training file not found: {train_path}")
     if validation_path and not validation_path.is_file():
         parser.error(f"Validation file not found: {validation_path}")
+    if args.epochs < 1 or args.batch_size < 1:
+        parser.error("--epochs and --batch-size must be positive")
 
+    use_lora = not (args.full_finetune or args.no_lora)
     model = AutoExtractor.from_pretrained(args.base_model)
     config = TrainingConfig(
         output_dir=args.output_dir,
@@ -38,22 +43,28 @@ def main() -> None:
         eval_batch_size=args.batch_size,
         encoder_lr=args.learning_rate,
         task_lr=5e-4,
+        max_len=args.max_len,
         eval_strategy="epoch" if validation_path else "no",
         save_best=bool(validation_path),
         early_stopping=bool(validation_path),
         early_stopping_patience=2,
         validate_data=True,
-        use_lora=not args.full_finetune,
+        use_lora=use_lora,
         lora_r=8,
         lora_alpha=16.0,
         lora_dropout=0.05,
         lora_target_modules=["encoder"],
-        save_adapter_only=not args.full_finetune,
+        save_adapter_only=use_lora,
+        # Safe default for Windows CPU / common consumer GPUs. Set precision
+        # explicitly in a hardware-specific training environment when tested.
         fp16=False,
         bf16=False,
     )
     trainer = ExtractorTrainer(model, config)
-    report = trainer.train(train_data=str(train_path), eval_data=str(validation_path) if validation_path else None)
+    report = trainer.train(
+        train_data=str(train_path),
+        eval_data=str(validation_path) if validation_path else None,
+    )
     Path(args.output_dir, "training_report.json").write_text(
         json.dumps(report, indent=2, default=str), encoding="utf-8"
     )
